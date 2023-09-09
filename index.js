@@ -864,7 +864,7 @@ exports.handler = async function (credentials) {
         // We iterate between all existing vault to check if they can be liquidated
         for (let vaultId = 1; vaultId <= totalVault; vaultId++) {
             var peekCheckVault = await contract.peekCheckVault(vaultId);
-            if (peekCheckVault === true) {
+            if (peekCheckVault === false) {
                 //TODO : Add the liquidation of the vault
             }
         }
