@@ -1,6 +1,5 @@
-require('dotenv').config()
 const {DefenderRelaySigner, DefenderRelayProvider} = require('defender-relay-client/lib/ethers');
-const {ethers, BigNumber} = require("ethers");
+const {ethers} = require("ethers");
 const VAULTCONTROLLER_ABI = [{
     "inputs": [{
         "internalType": "contract IVaultController",
@@ -875,7 +874,8 @@ exports.handler = async function (credentials) {
 
 // To run locally (this code will not be executed in Autotasks)
 if (require.main === module) {
-    const credentials = {apiKey: process.env.API_KEY, apiSecret: process.env.API_SECRET};
+    require('dotenv').config();
+    const credentials = {apiKey: process.env.API_KEY_RELAY, apiSecret: process.env.API_SECRET_RELAY};
     exports.handler(credentials)
         .then(() => process.exit(0))
         .catch(error => {

@@ -40,3 +40,13 @@ node index.js
 1. First you need to create a Relay, check documentation here : [https://docs.openzeppelin.com/defender/v1/relay](https://docs.openzeppelin.com/defender/v1/relay)
 
 2. Then you need to create a new Autotask and copy-past the `index.js` content and past in your Autotask.
+
+
+## 🆕  How to update OpenZeppelin Autotask ?
+
+Re-upload the file or run the following command :
+
+```yarn
+ yarn update-code $AUTOTASK_ID autotask
+```
+
