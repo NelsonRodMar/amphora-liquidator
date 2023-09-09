@@ -861,28 +861,11 @@ exports.handler = async function (credentials) {
         // We get the total number of vault that exist
         const totalVault = await contract.vaultsMinted();
         console.log('Total vault :', totalVault.toString());
-
-        // We get all the information of all the existing vault
-        const vaultSummaries = await contract.vaultSummaries(BigNumber.from(1), totalVault);
-
-        // We iterate on each vault
-        for (let id = 0; id < vaultSummaries.length; id++) {
-            var vaultBorrowingPower = await contract.vaultBorrowingPower(vaultSummaries[id].id);
-            // We check if vault liability is superior to vault borrowing power to know if need to be liquididated
-            if (vaultSummaries[id].vaultLiability.toBigInt() > vaultBorrowingPower.toBigInt()) {
-                // We iterate over all the token in the vault
-                for (let tokenId = 0; tokenId < vaultSummaries[tokenId].tokenAddresses.length; tokenId++) {
-                    // If token balance > 0 we can liquidate
-                    if (vaultSummaries[id].tokenBalances[tokenId] > 0) {
-                        // We first simulate to be sure that we can liquidate
-                        const txSimulateLiquidateVault = await contract.simulateLiquidateVault(
-                            vaultSummaries[id].id, // Vault Id
-                            vaultSummaries[id].tokenAddresses[tokenId], // Token Address
-                            vaultSummaries[id].tokenBalances[tokenId] // Token Balance to liquidate
-                        );
-                        //TODO : Add the liquidation of the vault
-                    }
-                }
+        // We iterate between all existing vault to check if they can be liquidated
+        for (let vaultId = 1; vaultId <= totalVault; vaultId++) {
+            var peekCheckVault = await contract.peekCheckVault(vaultId);
+            if (peekCheckVault === true) {
+                //TODO : Add the liquidation of the vault
             }
         }
     } else {
