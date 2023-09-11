@@ -859,16 +859,38 @@ exports.handler = async function (credentials) {
     if (isPaused === false) {
         // We get the total number of vault that exist
         const totalVault = await contract.vaultsMinted();
-        console.log('Total vault :', totalVault.toString());
+        console.log('[INFO]  Total vault :', totalVault.toString());
         // We iterate between all existing vault to check if they can be liquidated
         for (let vaultId = 1; vaultId <= totalVault; vaultId++) {
             var peekCheckVault = await contract.peekCheckVault(vaultId);
             if (peekCheckVault === false) {
-                //TODO : Add the liquidation of the vault
+                console.log("[INFO] Vault ", vaultId, " can be liquidated");
+                // Get liquidation vault info
+                var vaultSummary = await vaultController.vaultSummaries(vaultId, vaultId);
+                for (tokenAddr in vaultSummary.tokenAddresses) {
+                    const amountToLiquidate = vaultController.tokensToLiquidate(vaultId, tokenAddr);
+                    // We check that the amount to liquidate is greater than 0
+                    if (parseInt(amountToLiquidate) > 0) {
+                        // Log token address, and amount to liquidate
+                        console.log("[INFO]  Token address : ", tokenAddr, " to liquidate with amount of : ", amountToLiquidate.toString());
+                        // We first simulate to be sure that we can liquidate (can be removed for faster execution)
+                        try {
+                            // Liquidate the vault
+                            const liquidated = await vaultController.liquidateVault(
+                                vaultId, // Vault Id
+                                tokenAddr,  // Token Address to liquidate
+                                amountToLiquidate // Token Balance to liquidate
+                            );
+                            console.log(`[INFO]  Amount liquidated: ${liquidated}`);
+                        } catch (e) {
+                            console.log("[ERROR] Liquidation impossible : ", e);
+                        }
+                    }
+                }
             }
         }
     } else {
-        console.log("Cant perform action contract is paused");
+        console.log("[ERROR] Cant perform action contract is paused");
     }
 }
 
