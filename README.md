@@ -50,3 +50,9 @@ Re-upload the file or run the following command :
  yarn update-code $AUTOTASK_ID autotask
 ```
 
+## ℹ️ More information on this project 
+
+This project is a part of a Dework bounty [https://app.dework.xyz/amphora-protocol?taskId=01f4d11c-1030-4752-baad-d2222a8ee3d8
+](https://app.dework.xyz/amphora-protocol?taskId=01f4d11c-1030-4752-baad-d2222a8ee3d8
+), my project hasn't been selected but I still wanted to share it with the community, and I've learned a lot while doing it. 
+I've used [Tenderly Fork](https://docs.tenderly.co/simulations-and-forks/forks) to test everything.
